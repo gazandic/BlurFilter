@@ -1,0 +1,24 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="activity_full_vertical_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">8dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="property_margin">10dp</dimen>
+    <dimen name="detail_property_tablet_margin">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="three_part">120dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="text_margin_vertical">8dp</dimen>
+    <dimen name="text_margin_horizontal">16dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="circle_image_margin">8dp</dimen>
+    <dimen name="height_conversation_tag_pic_property">140dp</dimen>
+    <dimen name="font_size_secondary">12dp</dimen>
+    <bool name="isTab">false</bool>
+    <dimen name="widthPopup">300dp</dimen>
+    <dimen name="font_size_bigger">16sp</dimen>
+    <dimen name="text_padding">8dp</dimen>
+</resources>

@@ -164,6 +164,10 @@ public class ImageFiltering implements Parcelable {
         }
     }
 
+    public Bitmap getImage1() {
+        return image1;
+    }
+
     public Bitmap retBitmapAfterFilterGrayscale(int mode) {
         int[] pixels = new int[width * height];
         image1.getPixels(pixels, 0, width, 0, 0, width, height);
@@ -203,6 +207,379 @@ public class ImageFiltering implements Parcelable {
                 NewColor c = new NewColor(pixels[index]);
                 int grayscale = getGrayscaleHisto(c.getGrayscale());
                 setPixel(pixels, index, avg, mode, c, grayscale);
+
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+
+    public Bitmap sharpen(int mode) {
+        int[] pixels = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        for (int y = 1; y < height-1; ++y) {
+            for (int x = 1; x < width-1; ++x) {
+                int val = 0;
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = getGrayscaleHisto(c.getGrayscale());
+                NewColor c1 = new NewColor(image1.getPixel(x,y+1));
+                Integer idx1 = map.get(c1.getGrayscale()) + (brightness ) ;
+                NewColor c2 = new NewColor(image1.getPixel(x,y-1));
+                Integer idx2 = map.get(c2.getGrayscale()) + (brightness ) ;
+                NewColor c3 = new NewColor(image1.getPixel(x+1,y));
+                Integer idx3 = map.get(c3.getGrayscale()) + (brightness ) ;
+                NewColor c4 = new NewColor(image1.getPixel(x-1,y));
+                Integer idx4 = map.get(c4.getGrayscale()) + (brightness ) ;
+                val = 5 * grayscale - (idx1 + idx2 + idx3 + idx4);
+                setPixel(pixels, index, val, mode, c, grayscale);
+
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    public Bitmap blur(int mode) {
+        int[] pixels = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        for (int y = 1; y < height-1; ++y) {
+            for (int x = 1; x < width-1; ++x) {
+                int val = 0;
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = getGrayscaleHisto(c.getGrayscale());
+                NewColor c1 = new NewColor(image1.getPixel(x,y+1));
+                Integer idx1 = map.get(c1.getGrayscale()) + (brightness ) ;
+                NewColor c2 = new NewColor(image1.getPixel(x,y-1));
+                Integer idx2 = map.get(c2.getGrayscale()) + (brightness ) ;
+                NewColor c3 = new NewColor(image1.getPixel(x+1,y));
+                Integer idx3 = map.get(c3.getGrayscale()) + (brightness ) ;
+                NewColor c4 = new NewColor(image1.getPixel(x-1,y));
+                Integer idx4 = map.get(c4.getGrayscale()) + (brightness ) ;
+                val = (int) grayscale / 5 + (idx1 / 5  + idx2 / 5 + idx3 / 5 + idx4 / 5) ;
+                setPixel(pixels, index, val, mode, c, grayscale);
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    public Bitmap robertscross (int mode) {
+        int[] pixels = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        for (int y = 0; y < height-1; ++y) {
+            for (int x = 0; x < width-1; ++x) {
+                int val = 0;
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = getGrayscaleHisto(c.getGrayscale());
+                NewColor c1 = new NewColor(pixels[index+(width+1)]);
+                Integer idx1 = map.get(c1.getGrayscale()) + (brightness ) ;
+                NewColor c2 = new NewColor(pixels[index+1]);
+                Integer idx2 = map.get(c2.getGrayscale()) + (brightness ) ;
+                NewColor c3 = new NewColor(pixels[index+width]);
+                Integer idx3 = map.get(c3.getGrayscale()) + (brightness ) ;
+                int Gx = grayscale-idx1;
+                int Gy = idx2-idx3;
+//                val = (int) Math.sqrt((Gx * Gx)  + (Gy * Gy)) ;
+                if ( Math.abs(Gx) > Math.abs(Gy) ) setPixel(pixels, index, Math.abs(Gx), 2, c, grayscale);
+                else setPixel(pixels, index, Math.abs(Gy), 2, c, grayscale);
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    public Bitmap freioperator(int mode) {
+        int[] pixels = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        for (int y = 1; y < height-1; ++y) {
+            for (int x = 1; x < width-1; ++x) {
+                int val = 0;
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = getGrayscaleHisto(c.getGrayscale());
+                NewColor c1 = new NewColor(image1.getPixel(x,y+1));
+                Integer idx1 = map.get(c1.getGrayscale()) + (brightness ) ;
+                NewColor c2 = new NewColor(image1.getPixel(x,y-1));
+                Integer idx2 = map.get(c2.getGrayscale()) + (brightness ) ;
+                NewColor c3 = new NewColor(image1.getPixel(x+1,y));
+                Integer idx3 = map.get(c3.getGrayscale()) + (brightness ) ;
+                NewColor c4 = new NewColor(image1.getPixel(x-1,y));
+                Integer idx4 = map.get(c4.getGrayscale()) + (brightness ) ;
+                NewColor c5 = new NewColor(image1.getPixel(x+1,y+1));
+                Integer idx5 = map.get(c5.getGrayscale()) + (brightness ) ;
+                NewColor c6 = new NewColor(image1.getPixel(x+1,y-1));
+                Integer idx6 = map.get(c6.getGrayscale()) + (brightness ) ;
+                NewColor c7 = new NewColor(image1.getPixel(x-1,y-1));
+                Integer idx7 = map.get(c7.getGrayscale()) + (brightness ) ;
+                NewColor c8 = new NewColor(image1.getPixel(x-1,y+1));
+                Integer idx8 = map.get(c8.getGrayscale()) + (brightness ) ;
+                int Gx = (int) ((Math.sqrt(2) * idx1 ) - ( (Math.sqrt(2) * idx2 ) + idx5 + idx6 - idx8 - idx7));
+                int Gy = (int) ((Math.sqrt(2) * idx3 ) - ( (Math.sqrt(2) * idx4 ) + idx5 - idx6 + idx8 - idx7 ));
+
+                if ( Math.abs(Gx) > Math.abs(Gy) ) setPixel(pixels, index, Math.abs(Gx), 2, c, grayscale);
+                else setPixel(pixels, index, Math.abs(Gy), 2, c, grayscale);
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    public Bitmap matrixLoader(int mode, Matrix matrix, int level, int amount) {
+        int[] pixels = new int[width * height];
+        int[] pixelsface = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        image1.getPixels(pixelsface, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        int mark = 0;
+        for (int y = 1; y < height-1; ++y) {
+            for (int x = 1; x < width-1; ++x) {
+                int val = 0;
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = c.getGrayscale();
+                int x1 = -1, y1 = -1;
+                List<Integer> idxArr = new ArrayList<>();
+                for (int i=0;i<3;i++) {
+                    x1 = -1;
+                    for (int j=0;j<3;j++) {
+                        NewColor c1 = new NewColor(image1.getPixel(x + x1, y + y1));
+                        Integer idx = c1.getGrayscale() + (brightness);
+                        idxArr.add(idx);
+                        x1++;
+                    }
+                    y1++;
+                }
+
+                int result = 0;
+                for (int i=0;i<amount;i++) {
+                    int sum = 0;
+                    for (int j=0;j<9;j++) {
+                        if (matrix.getData(j) != 0) {
+                            sum += matrix.getData(j) * idxArr.get(j);
+                        }
+                    }
+                    matrix.swapToLeft();
+                    if(result < sum * sum) {
+                        result = sum * sum;
+                    }
+                    if(level == 1) matrix.swapToLeft();
+                }
+                result = (int) Math.sqrt(result);
+                if (mark == 0 && result > 5) {
+                    mark = index;
+                }
+                setPixel(pixels, index, result, 2, c, grayscale);
+            }
+        }
+        //new
+        int[] arr = new int[width * height];
+        for (int i = 0; i < width * height; ++i) {
+            arr[i] = 0;
+        }
+        for (int y = mark / width; y < height-1; ++y) {
+            for (int x = mark % width; x < width - 1; ++x) {
+                int index = y * width + x;
+                if (arr[index] < 1) {
+                    NewColor c = new NewColor(pixels[index]);
+                    int grayscale = c.getGrayscale();
+                    if (grayscale > 70) {
+                        int x1 = -1, y1 = -1;
+                        List<Integer> idxArr = new ArrayList<>();
+                        for (int i = 0; i < 3; i++) {
+                            x1 = -1;
+                            for (int j = 0; j < 3; j++) {
+                                NewColor c1 = new NewColor(pixels[index + x1 + (y1*width)]);
+                                Integer idx = c1.getGrayscale() + (brightness);
+                                idxArr.add(idx);
+                                x1++;
+                            }
+                            y1++;
+                        }
+                        int next = 4;
+                        for (int j = 0; j < 9; j++) {
+                            if (idxArr.get(j) > 70) {
+                                next = j;
+                            }
+                        }
+                        arr[index]++;
+                        int[] arah = new int[9];
+                        List<Integer> urutan = new ArrayList<>();
+
+                        for (int i = 0 ; i< 9 ; i++) {
+                            arah[i] = 0;
+                        }
+
+                        if (next != 4) {
+                            arah[next]++;
+                            urutan.add(next);
+//                            pixels[index] = Color.argb(255, 0, 255, 255);
+                        }
+                        int xx =x, yy =y;
+                        int indexs= 0;
+                        while (next != 4 && indexs != index) {
+
+                            int x2 = -1;
+                            int y2 = -1;
+                            xx += (next % 3) - 1;
+                            yy +=  (next-(next % 3)) / 3 - 1;
+                            indexs = yy * width + xx;
+                            idxArr = new ArrayList<>();
+                            for (int i = 0; i < 3; i++) {
+                                x2 = -1;
+                                for (int j = 0; j < 3; j++) {
+                                    if (indexs + x2 + (y2 * width) <= (width-2) * (height-2) && (indexs + x2 + (y2 * width)) > 0) {
+                                        NewColor c1 = new NewColor(pixels[(indexs + x2 + (y2 * width))]);
+                                        Integer idx = c1.getGrayscale() + (brightness);
+                                        idxArr.add(idx);
+                                    }
+                                    else {
+                                        idxArr.add(0);
+                                    }
+                                    x2++;
+                                }
+                                y2++;
+                            }
+                            int prevnext = next;
+
+                            for (int j = 0; j < 9; j++) {
+                                if (j != 4 && idxArr.get(j) > 70 && !reverse(3, j, prevnext) && prior(j,prevnext) > prior(next,prevnext)) {
+                                    next = j;
+                                } else if (j == 4) {
+                                    next = j;
+                                }
+                            }
+
+                            if (next != 4) {
+                                arah[next]++;
+                                urutan.add(next);
+                                if (indexs <= arr.length && indexs > 0) {
+                                    arr[ indexs]++;
+                                    pixels[indexs] = Color.argb(255, 0, 255, 255);
+
+                                }
+                            }
+
+                        }
+                        Shape shape = new Shape(urutan, arah);
+                        if (shape.checkRound()) {
+                            Log.d("bentuknyaa","bundar");
+                        }
+                    }
+                }
+
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    private boolean reverse(int size, int a, int b) {
+        int x1 = a % size;
+        int y1 = (a-x1) / size;
+        x1--; y1--;
+        int x2 = b % size;
+        int y2 = (b-x2) / size;
+        x2--; y2--;
+//        Log.d("dekat","x1:" + x1 + " y1:" + y1 +"x2:" + x2 + " y2:" + y2 );
+        return (-x1 == x2 && -y1 == y2);
+    }
+
+    private int prior(int a, int b) {
+        int point = 0;
+        int x1 = a % 3;
+        int y1 = (a-x1) / 3;
+        x1--; y1--;
+        int x2 = b % 3;
+        int y2 = (b-x2) / 3;
+        x2--; y2--;
+//        Log.d("dekat","x1:" + x1 + " y1:" + y1 +"x2:" + x2 + " y2:" + y2 );
+        if (a != b ) {
+            point++;
+        }
+
+        if (-x1 == x2) {
+            point++;
+        }
+
+        if (-y1 == y2) {
+            point++;
+        }
+        return point;
+    }
+    private int getNewIndex(int size, int a, int index) {
+        int x1 = a % size;
+        int y1 = (a-x1) / size;
+        x1--; y1--;
+        return index + x1 + (y1 * width);
+    }
+
+    public Bitmap homogenBoundary(int mode) {
+        int[] pixels = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        for (int y = 1; y < height-1; ++y) {
+            for (int x = 1; x < width-1; ++x) {
+                int x1 = -1, y1 = -1, max = 0;
+
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = getGrayscaleHisto(c.getGrayscale());
+                for (int i=0;i<3;i++) {
+                    x1 = -1;
+                    for (int j=0;j<3;j++) {
+                        NewColor c1 = new NewColor(image1.getPixel(x+x1,y+y1));
+                        Integer idx = map.get(c1.getGrayscale()) + (brightness ) ;
+                        Integer diff = Math.abs(idx-grayscale);
+                        if (max < diff) {
+                            max = diff;
+                        }
+                        x1++;
+                    }
+                    y1++;
+                }
+                setPixel(pixels, index, max, 2, c, grayscale);
+
+            }
+        }
+        bmOut.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bmOut;
+    }
+
+    public Bitmap boundary(int mode) {
+        int[] pixels = new int[width * height];
+        image1.getPixels(pixels, 0, width, 0, 0, width, height);
+        Bitmap bmOut = Bitmap.createBitmap(width, height, image1.getConfig());
+        for (int y = 1; y < height-1; ++y) {
+            for (int x = 1; x < width-1; ++x) {
+                int x1 = -1, y1 = -1, avg = 0;
+                int max = 0;
+                for (int i=0;i<4;i++) {
+                    NewColor c1 = new NewColor(image1.getPixel(x+x1,y+y1));
+                    Integer idx1 = map.get(c1.getGrayscale()) + (brightness ) ;
+                    NewColor c2 = new NewColor(image1.getPixel(x-x1,y-y1));
+                    Integer idx2 = map.get(c2.getGrayscale()) + (brightness ) ;
+                    Integer newidx = Math.abs(idx1-idx2);
+                    if (max < newidx) {
+                        max = newidx;
+                    }
+                    x1++;
+                    if (x1 > 1) {
+                        x1 = -1;
+                        y1++;
+                    }
+                }
+                int index = y * width + x;
+                NewColor c = new NewColor(pixels[index]);
+                int grayscale = getGrayscaleHisto(c.getGrayscale());
+                setPixel(pixels, index, max, 2, c, grayscale);
 
             }
         }

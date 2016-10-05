@@ -38,12 +38,66 @@ public class ColorListViewModel {
         }
     };
 
+
+    public Button.OnClickListener onBlur= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onBlur();
+        }
+    };
+
+    public Button.OnClickListener onKirsch = new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onKirsch();
+        }
+    };
+
+    public Button.OnClickListener onSharpen= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onSharpen();
+        }
+    };
+
+    public Button.OnClickListener onRobinson3= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onRobinson3();
+        }
+    };
+
+
+    public Button.OnClickListener onRobinson5= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onRobinson5();
+        }
+    };
+
+    public Button.OnClickListener onHomogenDiff= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onHomogenDiff();
+        }
+    };
+
+
+    public Button.OnClickListener onDiff= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onDiff();
+        }
+    };
+
+
     public ImageView.OnClickListener onImageSaved = new ImageView.OnClickListener() {
         @Override
         public void onClick(View view) {
             mainActivityListener.onImageSaved();
         }
     };
+
     public SeekBarBindingAdapter.OnProgressChanged onBrChange = new SeekBarBindingAdapter.OnProgressChanged() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

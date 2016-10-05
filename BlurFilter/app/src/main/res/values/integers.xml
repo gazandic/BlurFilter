@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="sobeloperator">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+        <item>2</item>
+        <item>0</item>
+        <item>-2</item>
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </integer-array>
+
+    <integer-array name="prewitt8">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>-2</item>
+        <item>1</item>
+        <item>-1</item>
+        <item>-1</item>
+        <item>-1</item>
+    </integer-array>
+
+
+    <integer-array name="prewittoperator">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </integer-array>
+
+    <integer-array name="kirschoperator">
+        <item>5</item>
+        <item>5</item>
+        <item>5</item>
+        <item>-3</item>
+        <item>0</item>
+        <item>-3</item>
+        <item>-3</item>
+        <item>-3</item>
+        <item>-3</item>
+    </integer-array>
+
+</resources>

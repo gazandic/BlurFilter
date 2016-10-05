@@ -38,4 +38,45 @@ public interface MainActivityListener {
      */
     void onSmooth();
 
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onKirsch();
+
+
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onRobinson3();
+
+
+
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onRobinson5();
+
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onSharpen();
+
+
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onBlur();
+
+
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onHomogenDiff();
+
+
+    /**
+     * Called to open createFindMeActivity
+     */
+    void onDiff();
+
 }

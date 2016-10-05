@@ -55,11 +55,96 @@
                     <ImageView
                         android:id="@+id/imageafterfilter"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="245dp"
                         android:layout_centerVertical="true"
                         android:elevation="8dp"
                         android:layout_gravity="center"
                         android:onClick="@{itemList.onImageSaved}"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Prewitt 8"
+                            android:onClick="@{itemList.onSmooth}"/>
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Prewitt"
+                            android:onClick="@{itemList.onSharpen}"/>
+
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Robert"
+                            android:onClick="@{itemList.onBlur}"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Frei"
+                            android:onClick="@{itemList.onHomogenDiff}"/>
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Sobel"
+                            android:onClick="@{itemList.onDiff}"/>
+
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Kirsch"
+                            android:onClick="@{itemList.onKirsch}"/>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Robinson 3"
+                            android:onClick="@{itemList.onRobinson3}"/>
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="Robinson 5"
+                            android:onClick="@{itemList.onRobinson5}"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_brightness"
@@ -112,12 +197,6 @@
                         android:secondaryProgress="50"
                         android:onProgressChanged="@{itemList.onHistChange}"/>
 
-                    <Button
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="Smooth"
-                        android:onClick="@{itemList.onSmooth}"/>
                 </LinearLayout>
             </ScrollView>
 

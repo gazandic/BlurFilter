@@ -1,7 +1,9 @@
 package com.example.gazandic.blurfilter;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -205,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
             img.setHistogram(i);
             bitmap = img.retBitmapAfterFilterGrayscale(mode);
             binding.imageafterfilter.setImageBitmap(bitmap);
-        }
+        } else
         binding.tvHistogram.setText("Histogram " + (i-50));
 
     }
@@ -213,7 +215,116 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
     @Override
     public void onSmooth() {
         if (img != null) {
-            bitmap = img.smoothing(mode);
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.prewitt8);
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.matrixLoader(mode, matrix, 2 , 8);
+
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onKirsch() {
+        if (img != null) {
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.kirschoperator);
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.matrixLoader(mode, matrix, 2 , 8);
+
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onRobinson3() {
+        if (img != null) {
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.prewittoperator);
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.matrixLoader(mode, matrix, 2 , 8);
+
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+
+    }
+
+    @Override
+    public void onRobinson5() {
+        if (img != null) {
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.sobeloperator                                                                                                                      );
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.matrixLoader(mode, matrix, 2 , 8);
+
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+
+    }
+
+
+    @Override
+    public void onSharpen() {
+        if (img != null) {
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.prewittoperator);
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.matrixLoader(mode, matrix, 1 , 1);
+
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onBlur() {
+        if (img != null) {
+            bitmap = img.robertscross(mode);
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+
+    @Override
+    public void onHomogenDiff() {
+        if (img != null) {
+            bitmap = img.freioperator(mode);
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+
+    @Override
+    public void onDiff() {
+        if (img != null) {
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.sobeloperator);
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.matrixLoader(mode, matrix, 1 , 1);
+
             binding.imageafterfilter.setImageBitmap(bitmap);
         }
     }
@@ -249,6 +360,28 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
             MediaScannerConnection.scanFile(this, paths, mimeTypes, null);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void onPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Should we show an explanation?
+                if (shouldShowRequestPermissionRationale(
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // Explain to the user why we need to read the contacts
+                }
+
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PackageManager.PERMISSION_GRANTED);
+
+                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
+                // app-defined int constant
+
+                return;
+            }
         }
     }
 
@@ -289,6 +422,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
     @Override
     public void onAddFindMeButtonClicked() {
         Log.d("lol","lol");
+        onPermission();
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, RequestConstant.REQUEST_GALLERY);

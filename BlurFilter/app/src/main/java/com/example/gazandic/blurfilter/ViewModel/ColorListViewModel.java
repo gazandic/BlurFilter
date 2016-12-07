@@ -46,6 +46,56 @@ public class ColorListViewModel {
         }
     };
 
+    public Button.OnClickListener onPrewitt8= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onPrewitt8();
+        }
+    };
+
+
+    public Button.OnClickListener onPrewitt= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onPrewitt();
+        }
+    };
+
+    public Button.OnClickListener onFrei= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onFrei();
+        }
+    };
+
+    public Button.OnClickListener onSobel= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onSobel();
+        }
+    };
+
+
+    public Button.OnClickListener faceDetection= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onFaceDetect();
+        }
+    };
+
+    public Button.OnClickListener onRobert= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onRobert();
+        }
+    };
+
+    public Button.OnClickListener onEqualization= new Button.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainActivityListener.onEqualization();
+        }
+    };
     public Button.OnClickListener onKirsch = new Button.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -72,21 +122,6 @@ public class ColorListViewModel {
         @Override
         public void onClick(View view) {
             mainActivityListener.onRobinson5();
-        }
-    };
-
-    public Button.OnClickListener onHomogenDiff= new Button.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mainActivityListener.onHomogenDiff();
-        }
-    };
-
-
-    public Button.OnClickListener onDiff= new Button.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mainActivityListener.onDiff();
         }
     };
 

@@ -10,6 +10,7 @@ public class NewColor {
     protected int sum;
     protected int grayscale;
     protected int rgb;
+    private int imaginarygrayscale = 0;
 
     public NewColor() {
         r = 0;
@@ -17,7 +18,7 @@ public class NewColor {
         b = 0;
         sum = 1;
         rgb = 0;
-        grayscale = grayScale();
+        setGrayscale();
     }
 
     public NewColor(int _r, int _g, int _b) {
@@ -26,7 +27,7 @@ public class NewColor {
         b = _b;
         sum = 1;
         this.rgb = rgb;
-        grayscale = grayScale();
+        setGrayscale();
     }
 
     public NewColor(int rgb) {
@@ -35,7 +36,23 @@ public class NewColor {
         b = rgb & 0xFF;
         sum = 1;
         this.rgb = rgb;
-        grayscale = grayScale();
+        setGrayscale();
+    }
+
+    public int getImaginarygrayscale() {
+        return imaginarygrayscale;
+    }
+
+    public void setImaginarygrayscale(int imaginarygrayscale) {
+        this.imaginarygrayscale = imaginarygrayscale;
+    }
+
+    public void setGrayscale(int grayscale) {
+        this.grayscale = grayscale;
+    }
+
+    public void setGrayscale() {
+        this.grayscale = grayScale();
     }
 
     public int getRed() {

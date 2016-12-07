@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
     public void onBrightnessChanged(int i) {
         if(img != null) {
             img.setBrightness(i);
-            bitmap = img.retBitmapAfterFilterGrayscale(mode);
+            bitmap = img.retBitmap(mode);
             binding.imageafterfilter.setImageBitmap(bitmap);
         }
         binding.tvBrightness.setText("Brightness " + (i-50));
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
     public void onContrastChanged(int i) {
         if (img != null) {
             img.setContrast(i);
-            bitmap = img.retBitmapAfterFilterGrayscale(mode);
+            bitmap = img.retBitmap(mode);
             binding.imageafterfilter.setImageBitmap(bitmap);
         }
         binding.tvContrast.setText("Contrast " + (i-50));
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
     }
 
     @Override
-    public void onSmooth() {
+    public void onPrewitt8() {
         if (img != null) {
 //            bitmap = img.sobeloperator(mode);
             int[] sobel = getResources().getIntArray(R.array.prewitt8);
@@ -224,6 +224,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
             Matrix matrix = new Matrix(list);
             bitmap = img.matrixLoader(mode, matrix, 2 , 8);
 
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onSmooth() {
+        if (img != null) {
+            bitmap = img.smoothing(mode);
             binding.imageafterfilter.setImageBitmap(bitmap);
         }
     }
@@ -278,9 +286,25 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
 
     }
 
+    @Override
+    public void onFaceDetect() {
+        if (img != null) {
+//            bitmap = img.sobeloperator(mode);
+            int[] sobel = getResources().getIntArray(R.array.sobeloperator );
+            List<Integer> list = new ArrayList<>();
+            for(int each : sobel) {
+                list.add(each);
+            }
+            Matrix matrix = new Matrix(list);
+            bitmap = img.faceDetect(mode, matrix, 2 , 8);
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+
+
+    }
 
     @Override
-    public void onSharpen() {
+    public void onPrewitt() {
         if (img != null) {
 //            bitmap = img.sobeloperator(mode);
             int[] sobel = getResources().getIntArray(R.array.prewittoperator);
@@ -296,27 +320,47 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
     }
 
     @Override
-    public void onBlur() {
+    public void onSharpen() {
+        if (img != null) {
+            bitmap = img.sharpen(mode);
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onRobert() {
         if (img != null) {
             bitmap = img.robertscross(mode);
             binding.imageafterfilter.setImageBitmap(bitmap);
         }
     }
-
+    @Override
+    public void onBlur() {
+        if (img != null) {
+            bitmap = img.blur(mode);
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
 
     @Override
-    public void onHomogenDiff() {
+    public void onEqualization() {
+        if (img != null) {
+            bitmap = img.retBitmapAfterFilterGrayscale(mode);
+            binding.imageafterfilter.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onFrei() {
         if (img != null) {
             bitmap = img.freioperator(mode);
             binding.imageafterfilter.setImageBitmap(bitmap);
         }
     }
 
-
     @Override
-    public void onDiff() {
+    public void onSobel() {
         if (img != null) {
-//            bitmap = img.sobeloperator(mode);
             int[] sobel = getResources().getIntArray(R.array.sobeloperator);
             List<Integer> list = new ArrayList<>();
             for(int each : sobel) {
@@ -397,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
 
     private void setData() {
         img.filter(ImageManipulation.compressImage(filePath, getApplicationContext()));
-        bitmap = img.retBitmapAfterFilterGrayscale(mode);
+        bitmap = img.retFFTBitmap(mode);
         binding.imageafterfilter.setImageBitmap(bitmap);
         binding.sbBrightness.setProgress(50);
         binding.sbContrast.setProgress(50);

@@ -396,11 +396,9 @@ public class ImageFiltering implements Parcelable {
             }
         }
 
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
-                fft2d(x, y, 2);
-            }
-        }
+        int wid = powerOf2Pm(width, 0, 0);
+        int hei = powerOf2Pm(height, 0, 0);
+        fft2d(wid, hei, 1);
 
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
@@ -410,7 +408,10 @@ public class ImageFiltering implements Parcelable {
                 int imaggrayscale = c.getImaginarygrayscale();
                 Double d = Math.sqrt((grayscale * grayscale) + (imaggrayscale * imaggrayscale));
                 Integer idx = d.intValue();
-                setPixel(pixels, index, idx, mode, c, grayscale);
+
+                idx = 255 - idx;
+
+                setPixel(pixels, index, idx, 2, c, grayscale);
             }
         }
 
@@ -423,12 +424,9 @@ public class ImageFiltering implements Parcelable {
         Integer m = 0, twopm = 0;
         real = new ArrayList<>();
         imag = new ArrayList<>();
-        for (int k = 0; k < nx; k++) {
+        for (i = 0; i < nx; i++) {
             real.add(0.0);
             imag.add(0.0);
-        }
-        if (real.size() != nx || imag.size() != nx) {
-            return -1;
         }
         m = powerOf2(nx, m, twopm);
         if (m == 0)
@@ -451,18 +449,16 @@ public class ImageFiltering implements Parcelable {
                 NewColor c = lc.get(index);
                 c.setImaginarygrayscale(ima);
                 c.setGrayscale(rea);
-                lc.set(index, new NewColor(ima, ima, ima) );
+                lc.set(index, c);
             }
         }
 
         real = new ArrayList<>();
         imag = new ArrayList<>();
-        for (int k = 0; k < ny; k++) {
+
+        for (i = 0; i < ny; i++) {
             real.add(0.0);
             imag.add(0.0);
-        }
-        if (real.size() != ny || imag.size() != ny) {
-            return -1;
         }
         m = powerOf2(ny, m, twopm);
         if (m == 0)
@@ -485,7 +481,8 @@ public class ImageFiltering implements Parcelable {
                 NewColor c = lc.get(index);
                 c.setImaginarygrayscale(ima);
                 c.setGrayscale(rea);
-                lc.set(index, new NewColor(ima, ima, ima) );
+
+                lc.set(index, c );
             }
         }
         return 1;
@@ -518,7 +515,7 @@ public class ImageFiltering implements Parcelable {
             }
             j += k;
         }
-
+//
         /* Compute the FFT */
         c1 = -1.0;
         c2 = 0.0;
@@ -531,8 +528,8 @@ public class ImageFiltering implements Parcelable {
             for (j = 0;j < l1;j++) {
                 for (i = j;i < nn;i+=l2) {
                     i1 = i + l1;
-                    t1 = (u1 * real.get(i1)) - (u2 * imag.get(i));
-                    t2 = (u1 * imag.get(i)) + (u2 * real.get(i));
+                    t1 = (u1 * real.get(i1)) - (u2 * imag.get(i1));
+                    t2 = (u1 * imag.get(i1)) + (u2 * real.get(i1));
                     real.set(i1, real.get(i) - t1);
                     imag.set(i1, imag.get(i) - t2);
                     real.set(i, real.get(i) + t1);
@@ -548,13 +545,6 @@ public class ImageFiltering implements Parcelable {
             c1 = Math.sqrt((1.0 + c1) * 0.5);
         }
 
-        /* Scaling for forward transform */
-        if (dir == 1) {
-            for (i = 0;i < nn;i++) {
-                real.set(i, real.get(i) / (double)nn);
-                imag.set(i, imag.get(i) / (double)nn);
-            }
-        }
         return 1;
     }
 
@@ -573,6 +563,21 @@ public class ImageFiltering implements Parcelable {
         if (twopm !=n)
             return 0;
         return m;
+    }
+
+    public int powerOf2Pm(int n, int m, int twopm) {
+        if (n <= 1) {
+            m = 0;
+            twopm = 1;
+            return twopm;
+        }
+        m = 1;
+        twopm = 2;
+        do {
+            m++;
+            twopm *= 2;
+        } while (2*twopm <= n);
+        return twopm;
     }
 
     private boolean inShape(Shape s, Shape s1) {
